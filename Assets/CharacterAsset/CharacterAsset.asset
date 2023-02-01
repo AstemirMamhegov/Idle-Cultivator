@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   maxDao: 100
-  incDao: 0
   miltiplieIncDao: 3
+  level: 1

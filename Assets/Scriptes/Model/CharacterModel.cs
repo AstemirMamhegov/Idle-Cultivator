@@ -1,49 +1,68 @@
 using System;
 using UnityEditor.Search;
 
-[System.Serializable]
+[Serializable]
 public class CharacterModel
 {
     public int id;
 
     public float currentDao;
     public float maxDao;
-    public float incDao;
     public float multiplieIncDao;
+
+    public string levelRange;
     public int level;
+
+    [NonSerialized]private CharacterUpgrade characterUpgrade;
+
     public Action onLevelUp;
 
-    public CharacterModel(int id, float maxDao, float incDao, float multiplieIncDao)
+    public CharacterModel(int id, int level)
     {
         this.id = id;
         this.currentDao = 0;
-        this.maxDao = maxDao;
-        this.level = 1;
-        this.incDao = incDao;
-        this.multiplieIncDao = multiplieIncDao;
+        this.level = level;
     }
 
-    public CharacterModel(CharacterAsset asset) : this(asset.id, asset.maxDao, asset.incDao, asset.miltiplieIncDao)
+    public CharacterModel(CharacterAsset asset) : this(asset.id, asset.level)
     {
+    }
+
+    public void SetUpgrade(CharacterUpgrade upgrade)
+    {
+        characterUpgrade = upgrade;
+        SetLevel(level);
+    }
+
+    public void SetLevel(int level)
+    {
+        maxDao = characterUpgrade.levelDaos[level].maxDao;
+        levelRange = characterUpgrade.levelDaos[level].nameOfRange;
     }
 
     public void AddXp(int xp)
     {
         currentDao += xp;
-        if(currentDao >= maxDao)
+
+        if (currentDao >= maxDao)
         {
-            LevelUp();
-            currentDao = 0;
+            if(level < characterUpgrade.MaxLevel)
+            {
+                LevelUp();
+                currentDao = 0;
+            }
+            else
+            {
+                currentDao = maxDao;
+            }
         }
     }
 
-    public void LevelUp(int level = 1)
+    public void LevelUp()
     {
-        for (int i = 0; i < level; i++)
-        {
-            maxDao *= multiplieIncDao;
-        }
         level++;
+        SetLevel(level);
+
         onLevelUp?.Invoke();
     }
 }

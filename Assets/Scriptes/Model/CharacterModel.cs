@@ -1,32 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
+using UnityEditor.Search;
 
 [System.Serializable]
-public class CharacterModel : MonoBehaviour
+public class CharacterModel
 {
-    public static CharacterModel instance;
-    // Градация возвышения
-    public int LevelID { get; set; }
-    public string CiltivationRange { get; set; }
+    public int id;
 
-    // Жизни и энергия
-    public int HealthPoint { get; set; }
-    public int DaoEnergy { get; set; }
-    public int DaoMaxEnregy { get; set; }
+    public float currentDao;
+    public float maxDao;
+    public float incDao;
+    public float multiplieIncDao;
+    public int level;
+    public Action onLevelUp;
 
-    //Физические статистики
-    public int Strength { get; set; }
-    public int Vitality { get; set; }
-    public int Aguilty { get; set; }
-    public int Stamina { get; set; }
-    public int Wisdom { get; set; }
-    public int Intellect { get; set; }
+    public CharacterModel(int id, float maxDao, float incDao, float multiplieIncDao)
+    {
+        this.id = id;
+        this.currentDao = 0;
+        this.maxDao = maxDao;
+        this.level = 1;
+        this.incDao = incDao;
+        this.multiplieIncDao = multiplieIncDao;
+    }
 
-    //Рассчетные статистики
-    public double Damage { get; set; }
-    public double CriticalChance { get; set; }
-    public double CriticalDamage { get; set; }
-    public double Defense { get; set; }
+    public CharacterModel(CharacterAsset asset) : this(asset.id, asset.maxDao, asset.incDao, asset.miltiplieIncDao)
+    {
+    }
 
+    public void AddXp(int xp)
+    {
+        currentDao += xp;
+        if(currentDao >= maxDao)
+        {
+            LevelUp();
+            currentDao = 0;
+        }
+    }
+
+    public void LevelUp(int level = 1)
+    {
+        for (int i = 0; i < level; i++)
+        {
+            maxDao *= multiplieIncDao;
+        }
+        level++;
+        onLevelUp?.Invoke();
+    }
 }

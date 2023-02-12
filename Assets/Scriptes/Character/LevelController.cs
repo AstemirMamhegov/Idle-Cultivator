@@ -2,19 +2,27 @@ using Assets.Scriptes.Save;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 public class LevelController : MonoBehaviour
 {
+    // Экземпляры классов
+    private CharacterModel _character;
+
     public CharacterAsset _asset;
     public CharacterUpgrade _assetUpgrade;
-    public ExpManager _manager;
+
+    public DaoManager _manager;
+    public PassiveDao _passiveDao;
     public SaveSystem _save;
-    private CharacterModel _character;
+
+    // События
     public Action onCharacterUpdate;
     public Action onCharacterAdd;
 
+    //Переназначение переменных класса Персонаж
     public float CurrentDao => _character.currentDao;
     public float MaxDao => _character.maxDao;
     public int Level => _character.level;
@@ -28,16 +36,23 @@ public class LevelController : MonoBehaviour
         else
             _character = new CharacterModel(_asset);
 
-        _character.SetUpgrade(_assetUpgrade);
+        _character.SetUpgradeRange(_assetUpgrade);
         onCharacterAdd?.Invoke();
 
         _save.characterData = _character;
-        _manager.onMouseDown += AddXp;
+
+        _passiveDao.AddPassiveElement(_character);
+        _passiveDao.onDaoUpdate += AddDao;
+        _manager.onMouseDown += AddDao;
     }
 
-    private void AddXp(int xp)
+    /// <summary>
+    /// Вызывает функцию добавления Дао и сохраняет прогресс в dat файл
+    /// </summary>
+    /// <param name="dao"></param>
+    private void AddDao(int dao)
     {
-        _character.AddXp(xp);
+        _character.AddDao(dao);
         onCharacterUpdate?.Invoke();
         _save.Save();
     }

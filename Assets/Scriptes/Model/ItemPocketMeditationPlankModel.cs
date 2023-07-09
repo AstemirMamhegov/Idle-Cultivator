@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemPocketMeditationPlankModel : ItemBaseModel, IPassiveDao, IPassiveELement
 {
+    //Скрипт-Модель для увеличения характеристики пассивного накопления Дао
     public int _passiveDao { get; }
 
     public int Dao => _passiveDao;

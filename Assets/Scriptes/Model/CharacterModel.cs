@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Search;
 
 [Serializable]
 public class CharacterModel : IPassiveDao, IPassiveELement
@@ -96,7 +95,6 @@ public class CharacterModel : IPassiveDao, IPassiveELement
         levelRange = characterUpgrade.levelDaos[level].nameOfRange;
     }
 
-
     /// <summary>
     /// Функция добавление Дао путем клика мыши.
     /// </summary>
@@ -139,5 +137,4 @@ public class CharacterModel : IPassiveDao, IPassiveELement
     {
         return Dao;
     }
-
 }

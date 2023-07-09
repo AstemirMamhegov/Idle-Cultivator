@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PassiveDao : MonoBehaviour
 {
+    //Класс позволяющий запускать процесс пасивного накопления дао для персонажа
     public Component[] passiveComponents;
 
     public int currentPassiveDao;
@@ -39,7 +40,7 @@ public class PassiveDao : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Функция добавляет количество характеристики пассивного Дао - персонажу.
     /// </summary>
     /// <param name="el"></param>
     public void AddPassiveElement(IPassiveELement el)
@@ -48,7 +49,7 @@ public class PassiveDao : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Функция добавляет единицы дао для пассивного накопления персонажем
     /// </summary>
     private void UpdateDao()
     {

@@ -14,7 +14,6 @@ public class LevelController : MonoBehaviour
     public CharacterAsset _asset;
     public CharacterUpgrade _assetUpgrade;
 
-    public DaoManager _manager;
     public PassiveDao _passiveDao;
     public SaveSystem _save;
 
@@ -22,7 +21,7 @@ public class LevelController : MonoBehaviour
     public Action onCharacterUpdate;
     public Action onCharacterAdd;
 
-    //Переназначение переменных класса Персонаж
+    //Переназначение переменных класса Персонаж, для последующего использования в UI элементах
     public float CurrentDao => _character.currentDao;
     public float MaxDao => _character.maxDao;
     public int Level => _character.level;
@@ -43,7 +42,6 @@ public class LevelController : MonoBehaviour
 
         _passiveDao.AddPassiveElement(_character);
         _passiveDao.onDaoUpdate += AddDao;
-        _manager.onMouseDown += AddDao;
     }
 
     /// <summary>

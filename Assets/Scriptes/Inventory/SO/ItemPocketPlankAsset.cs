@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemPocketPlankAsset", menuName = "Item/ItemPocketPlankAsset", order = 0)]
 public class ItemPocketPlankAsset : ItemBaseAsset
 {
+    //јссет позвол€ющий создавать прдемет ѕланку дл€ медитации
     [SerializeField] int passiveDao;
 
     public override ItemBaseModel Create()
